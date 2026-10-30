@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoLearn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #2196F3;
+            --text-color: #f0f0f0;
+            --gradient-start: #1e3a8a; /* Deep Blue */
+            --gradient-mid: #064e3b; /* Dark Green */
+            --gradient-end: #3b0764; /* Dark Purple */
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(270deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end));
+            background-size: 600% 600%;
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            animation: backgroundAnimation 20s ease infinite;
+        }
+
+        @keyframes backgroundAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        nav {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 10px 15px;
+            margin: 0 10px;
+            font-weight: 600;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        header {
+            margin-top: 100px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 0;
+            color: var(--primary-color);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        h3.gamified-title {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: var(--secondary-color);
+            margin-top: 5px;
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0, 255, 0, 0.2);
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 255, 0, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .glass-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-box-shadow);
+            padding: 40px;
+            margin: 20px auto;
+            max-width: 800px;
+            text-align: left;
+        }
+
+        .black-glass-container {
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        .section {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+
+        .section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .eco-highlight {
+            color: #b3ffb3;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .lessons-list {
+            list-style-type: none;
+            padding: 0;
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        .lesson-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .lesson-card h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+
+        .lesson-card p {
+            font-size: 0.9em;
+            color: #c4c4c4;
+        }
+
+        .lesson-content {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-box-shadow);
+            padding: 40px;
+            margin: 20px auto;
+            max-width: 800px;
+            text-align: left;
+        }
+
+        .lesson-content .lesson-header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .lesson-content .quiz-container {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .quiz-container ol {
+            padding-left: 20px;
+        }
+
+        .quiz-container li {
+            margin-bottom: 20px;
+        }
+
+        .quiz-options {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .quiz-options li {
+            margin-bottom: 10px;
+        }
+
+        .quiz-options label {
+            display: block;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .quiz-options input[type="radio"]:checked + label {
+            background: var(--primary-color);
+            border-color: #fff;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #d4e7d4;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            color: #f0f0f0;
+            font-size: 1em;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--primary-color);
+        }
+        
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0, 255, 0, 0.2);
+            position: relative;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px var(--primary-color), 0 0 40px var(--primary-color);
+        }
+        
+        #leaderboard .glass-container {
+            max-width: 1200px;
+            padding: 60px;
+        }
+        
+        #leaderboardContainer {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            min-height: auto;
+        }
+
+        .leaderboard-card {
+            width: 280px;
+            height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            border-radius: 15px;
+            transition: transform 0.5s, box-shadow 0.3s;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            animation: spinCard 10s linear infinite;
+        }
+        
+        @keyframes spinCard {
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(360deg); }
+        }
+
+        .leaderboard-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+        }
+
+        .leaderboard-card .rank {
+            font-size: 2.5em;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            color: #f0f0f0;
+        }
+        
+        .leaderboard-card .score {
+            font-size: 1em;
+            color: #d4e7d4;
+            margin-top: 5px;
+        }
+
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            justify-items: center;
+            margin-top: 30px;
+        }
+
+        .badge-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+
+        .badge-card:hover {
+            transform: scale(1.05);
+        }
+
+        .badge-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-color);
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" onclick="event.preventDefault(); showSection('home')">HOME</a>
+        <a href="#" onclick="event.preventDefault(); showSection('about')">ABOUT</a>
+        <a href="#" onclick="event.preventDefault(); showSection('service')">SERVICE</a>
+        <a href="#" onclick="event.preventDefault(); showSection('design')">DESIGN</a>
+        <a href="#" onclick="event.preventDefault(); showSection('contact')">CONTACT</a>
+    </nav>
+
+    <header>
+        <h1>🌿EcoLearn🌿</h1>
+        <h3 class="gamified-title">Gamified Environmental Learning</h3>
+        <button id="joinUsBtn" class="btn" onclick="showSection('course')">JOIN US</button>
+        <button id="loginBtn" class="btn" onclick="showSection('login')">LOGIN HERE</button>
+    </header>
+
+    <div id="home" class="section">
+        <div class="glass-container">
+            <h2>Home</h2>
+            <p>Welcome to EcoLearn, your gateway to mastering web design and development.</p>
+        </div>
+    </div>
+
+    <div id="about" class="section">
+        <div class="glass-container">
+            <h2>About</h2>
+            <p>
+                EcoLearn is more than just a quiz platform—it's a movement to spark environmental awareness through interactive learning.
+                By blending gamified challenges with real-world topics like climate change, pollution, and biodiversity, EcoLearn empowers users
+                to explore, engage, and take action. Whether you're a student, educator, or eco-curious explorer, our mission is simple: make
+                sustainability knowledge accessible, fun, and impactful. Every question answered is a step toward a greener future.
+            </p>
+        </div>
+    </div>
+
+    <div id="service" class="section">
+        <div class="glass-container">
+            <h2>Service</h2>
+            <p>
+                EcoLearn offers a suite of interactive tools designed to make environmental education engaging, accessible, and action-driven.
+                From dynamic quizzes and real-time score tracking to themed challenges and leaderboard competitions, our platform transforms
+                learning into a game. Educators can customize content, students can explore topics like climate change and conservation, and
+                organizations can run sustainability campaigns with measurable impact. Whether you're teaching, learning, or leading, EcoLearn
+                equips you with the digital tools to inspire eco-conscious action.
+            </p>
+        </div>
+    </div>
+
+    <div id="design" class="section">
+        <div class="glass-container">
+            <h2>Design</h2>
+            <p>
+                At EcoLearn, design isn’t decoration—it’s direction. Every pixel, transition, and interaction is crafted to guide users through a
+                seamless learning journey. Our interface blends clarity with creativity, using responsive layouts, intuitive navigation, and visual
+                storytelling to make environmental education feel effortless and engaging. From animated feedback to adaptive quiz flows, EcoLearn’s
+                design philosophy centers on accessibility, immersion, and impact—because learning should feel as good as it looks.
+            </p>
+        </div>
+    </div>
+
+    <div id="contact" class="section">
+        <div class="glass-container">
+            <h2>Contact</h2>
+            <p>Email us at support@ecolearn.org or follow us on social media.</p>
+        </div>
+    </div>
+
+    <div id="login" class="section">
+        <div class="glass-container">
+            <h2 class="eco-highlight">Login</h2>
+            <form id="loginForm" onsubmit="event.preventDefault(); loginUser();">
+                <div class="input-group">
+                    <label for="loginUsername">Username</label>
+                    <input type="text" id="loginUsername" placeholder="Enter username" required>
+                </div>
+                <div class="input-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter password" required>
+                </div>
+                <button class="btn" type="submit">Login</button>
+            </form>
+            <p>Don't have an account? <a href="#" onclick="event.preventDefault(); showSection('register')">Register here</a></p>
+        </div>
+    </div>
+
+    <div id="register" class="section">
+        <div class="glass-container">
+            <h2 class="eco-highlight">Register</h2>
+            <form id="registerForm" onsubmit="event.preventDefault(); registerUser();">
+                <div class="input-group">
+                    <label for="regUsername">Username</label>
+                    <input type="text" id="regUsername" placeholder="Choose a username" required>
+                </div>
+                <div class="input-group">
+                    <label for="regEmail">Email</label>
+                    <input type="email" id="regEmail" placeholder="Enter your email" required>
+                </div>
+                <div class="input-group">
+                    <label for="regPassword">Password</label>
+                    <input type="password" id="regPassword" placeholder="Create a password" required>
+                </div>
+                <button class="btn" type="submit">Register</button>
+            </form>
+            <p>Already have an account? <a href="#" onclick="event.preventDefault(); showSection('login')">Login here</a></p>
+        </div>
+    </div>
+
+    <div id="course" class="section">
+        <div class="glass-container">
+            <div id="courseContent">
+                <h2 class="eco-highlight">Eco Learning and Growing</h2>
+                <p class="eco-highlight">
+                    EcoLearn is an interactive web platform designed to educate and inspire users about pressing environmental issues through engaging quizzes and challenges. From climate change and pollution to biodiversity and sustainability, EcoLearn transforms learning into a game making complex topics accessible, fun, and memorable. Whether you're a student, educator, or eco-curious explorer, EcoLearn helps you test your knowledge, discover new facts, and take small steps toward a greener future. With real-time feedback, leaderboards, and a growing library of questions, our mission is simple: make environmental education exciting and impactful for everyone.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="lessons" class="section">
+        <div class="glass-container">
+            <h2 class="eco-highlight" style="text-align: center;">Choose Your Lesson</h2>
+            <ul id="lessons-list" class="lessons-list">
+                <li class="lesson-card" onclick="showLesson('sustainability')">
+                    <h3>Sustainability Basics</h3>
+                    <p>Learn the core principles of sustainability and its importance for the future.</p>
+                </li>
+                <li class="lesson-card" onclick="showLesson('renewable')">
+                    <h3>Renewable Energy</h3>
+                    <p>Explore the different types of renewable energy sources and how they work.</p>
+                </li>
+                <li class="lesson-card" onclick="showLesson('waste-management')">
+                    <h3>Waste Management</h3>
+                    <p>Master the 3Rs: Reduce, Reuse, and Recycle to minimize your environmental footprint.</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="sustainability-lesson" class="lesson-content" style="display:none;">
+        <div class="lesson-header">
+            <h2>Sustainability Basics</h2>
+            <p>Sustainability is the practice of meeting our own needs without compromising the ability of future generations to meet their own needs. It is built on three pillars: economic, environmental, and social. By balancing these three, we can create a healthier world for everyone. Sustainable practices are essential for combating climate change, protecting biodiversity, and ensuring a stable global society.</p>
+            <button class="btn" onclick="showQuiz('sustainability')">Start Quiz</button>
+            <button class="btn" type="button" onclick="showSection('lessons')">Back to Lessons</button>
+        </div>
+        <div id="sustainability-quiz-container" class="quiz-container black-glass-container" style="display:none;">
+            <h3>Quiz: Sustainability Basics</h3>
+            <form id="sustainability-quiz-form" onsubmit="event.preventDefault(); submitQuiz('sustainability');">
+                <ol>
+                    <li>
+                        <p><strong>What are the three pillars of sustainability?</strong></p>
+                        <ul class="quiz-options">
+                            <li><label><input type="radio" name="s1" value="i" /> i. Environmental, Social, and Economic</label></li>
+                            <li><label><input type="radio" name="s1" value="ii" /> ii. Political, Cultural, and Technological</label></li>
+                            <li><label><input type="radio" name="s1" value="iii" /> iii. Renewable, Non-renewable, and Human</label></li>
+                            <li><label><input type="radio" name="s1" value="iv" /> iv. Global, National, and Local</label></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>Which of the following is an example of a sustainable practice?</strong></p>
+                        <ul class="quiz-options">
+                            <li><label><input type="radio" name="s2" value="i" /> i. Using disposable plastic bottles</label></li>
+                            <li><label><input type="radio" name="s2" value="ii" /> ii. Driving a gas-guzzling car</label></li>
+                            <li><label><input type="radio" name="s2" value="iii" /> iii. Composting food scraps</label></li>
+                            <li><label><input type="radio" name="s2" value="iv" /> iv. Throwing away old clothes</label></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>What does 'carbon footprint' measure?</strong></p>
+                        <ul class="quiz-options">
+                            <li><label><input type="radio" name="s3" value="i" /> i. The amount of water an individual uses</label></li>
+                            <li><label><input type="radio" name="s3" value="ii" /> ii. The total weight of a person's waste</label></li>
+                            <li><label><input type="radio" name="s3" value="iii" /> iii. The total greenhouse gas emissions caused by an individual, event, or product</label></li>
+                            <li><label><input type="radio" name="s3" value="iv" /> iv. The amount of energy a household consumes</label></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>'Biodiversity' refers to the variety of...</strong></p>
+                        <ul class="quiz-options">
+                            <li><label><input type="radio" name="s4" value="i" /> i. Buildings and infrastructure in a city</label></li>
+                            <li><label><input type="radio" name="s4" value="ii" /> ii. Life forms and ecosystems on Earth</label></li>
+                            <li><label><input type="radio" name="s4" value="iii" /> iii. Renewable energy sources</label></li>
+                            <li><label><input type="radio" name="s4" value="iv" /> iv. Sustainable practices in a community</label></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>What is the primary goal of sustainable development?</strong></p>
+                        <ul class="quiz-options">
+                            <li><label><input type="radio" name="s5" value="i" /> i. To maximize economic growth at all costs</label></li>
+                            <li><label><input type="radio" name="s5" value="ii" /> ii. To balance the needs of present and future generations</label></li>
+                            <li><label><input type="radio" name="s5" value="iii" /> iii. To eliminate all fossil fuel use immediately</label></li>
+                            <li><label><input type="radio" name="s5" value="iv" /> iv. To reduce human population globally</label></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>Which of these is a social aspect of sustainability?</strong></p>
+                        <ul class="quiz-options">
+                            <li><label><input type="radio" name="s6" value="i" /> i. Using solar panels</label></li>
+                            <li><label><input type="radio" name="s6" value="ii" /> ii. Ensuring fair labor practices and safe working conditions</label></li>
+                            <li><label><input type="radio" name="s6" value="iii" /> iii. Reducing carbon emissions from factories</label></li>
+                            <li><label><input type="radio" name="s6" value="iv" /> iv. Recycling plastic bottles</label></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>What is the purpose of a green building?</strong></p>
+                        <ul class="quiz-options">
+                            <li><label><input type="radio" name="s7" value="i" /> i. To be painted green</label></li>
+                            <li><label><input type="radio" name="s7" value="ii" /> ii. To be made only of wood</label></li>
+                            <li><label><input type="radio" name="s7" value="iii" /> iii. To use resources efficiently and reduce environmental impact</label></li>
+                            <li><label><input type="radio" name="s7" value="iv" /> iv. To have a garden on the roof</label></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>Ecological footprint measures...</strong></p>
+                        <ul class="quiz-options">
+                            <li><label><input type="radio" name="s8" value="i" /> i. The amount of land and water area a human population requires to produce the resources it consumes and to absorb its wastes</label></li>
+                            <li><label><input type="radio" name="s8" value="ii" /> ii. The number of people living in a specific area</label></li>
+                            <li><label><input type="radio" name="s8" value="iii" /> iii. The total number of trees in a forest</label></li>
+                            <li><label><input type="radio" name="s8" value="iv" /> iv. The impact of a single person's walking on the environment</label></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>Why is sustainable agriculture important?</strong></p>
+                        <ul class="quiz-options">
+                            <li><label><input type="radio" name="s9" value="i" /> i. It focuses on growing only a single crop</label></li>
+                            <li><label><input type="radio" name="s9" value="ii" /> ii. It aims to protect the environment, public health, and human communities</label></li>
+                            <li><label><input type="radio" name="s9" value="iii" /> iii. It requires the use of a lot of pesticides</label></li>
+                            <li><label><input type="radio" name="s9" value="iv" /> iv. It produces food that is more expensive</label></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>What is an economic benefit of sustainable practices?</strong></p>
+                        <ul class="quiz-options">
+                            <li><label><input type="radio" name="s10" value="i" /> i. Increased waste production</label></li>
+                            <li><label><input type="radio" name="s10" value="ii" /> ii. Long-term cost savings through energy efficiency and reduced resource consumption</label></li>
+                            <li><label><input type="radio" name="s10" value="iii" /> iii. More reliance on non-renewable resources</label></li>
+                            <li><label><input type="radio" name="s10" value="iv" /> iv. Higher prices for sustainable products</label></li>
+                        </ul>
+                    </li>
+                </ol>
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="btn" type="submit">Submit Quiz</button>
+                    <button class="btn" type="button" onclick="showSection('lessons')">Back to Lessons</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="renewable-lesson" class="lesson-content" style="display:none;">
+        <div class="lesson-header">
+            <h2>Renewable Energy</h2>
+            <p>Renewable energy is derived from natural resources that are replenished constantly. These sources include sunlight, wind, rain, tides, waves, and geothermal heat. Unlike fossil fuels, which are finite and release greenhouse gases when burned, renewable energy sources have a minimal environmental footprint. Adopting renewable energy is crucial for combating climate change and building a cleaner, more sustainable future.</p>
+            <button class="btn" onclick="showQuiz('renewable')">Start Quiz</button>
+            <button class="btn" type="button" onclick="showSection('lessons')">Back to Lessons</button>
+        </div>
+        <div id="renewable-quiz-container" class="quiz-container black-glass-container" style="display:none;">
+            <h3>Quiz: Renewable Energy</h3>
+            <form id="renewable-quiz-form" onsubmit="event.preventDefault(); submitQuiz('renewable');">
+                <ol>
+                    <li>
+                        <p><strong>Which of these is a renewable energy source?</strong></p>
+                        <ul class="quiz-options">
+                            <li><label><input type="radio" name="r1" value="i" /> i. Oil</label></li>
+                            <li><label><input type="radio" name="r1" value="ii" /> ii. Solar</label></li>
+                            <li><label><input type="radio" name="r1" value="iii" /> iii. Natural Gas</label></li>
+                            <li><label><input type="radio" name="r1" value="iv" /> iv. Coal</label></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>How is solar energy harnessed?</strong></p>
+                        <ul class="quiz-options">
+                            <li><label><input type="radio" name="r2" value="i" /> i. By burning fossil fuels</label></li>
+                            <li><label><input type="radio" name="r2" value="ii" /> ii. Using photovoltaic (PV) cells to convert sunlight into electricity</label></li>
+                            <li><label><input type="radio" name="r2" value="iii" /> iii. By capturing wind with turbines</label></li>
+                            <li><label><input type="radio" name="r2" value="iv" /> iv. From the heat of the Earth's core</label></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>What is the main advantage of wind energy?</strong></p>
+                        <ul class="quiz-options">
+                            <li><label><input type="radio" name="r3" value="i" /> i. It is a constant and reliable source</label></li>
+                            <li><label><input type="radio" name="r3" value="ii" /> ii. It does not produce greenhouse gas emissions</label></li>
+                            <li><label><input type="radio" name="r3" value="iii" /> iii. It is inexpensive to install</label></li>
+                            <li><label><input type="radio" name="r3" value="iv" /> iv. It can be stored easily</label></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>Hydroelectric power is generated from...</strong></p>
+                        <ul class="quiz-options">
+                            <li><label><input type="radio" name="r4" value="i" /> i. Tides</label></li>
+                            <li><label><input type="radio" name="r4" value="ii" /> ii. Geothermal heat</label></li>
+                            <li><label><input type="radio" name="r4" value="iii" /> iii. Biomass</label></li>
+                            <li><label><input type="radio" name="r4" value="iv" /> iv. The flow of water</label></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>Geothermal energy comes from what source?</strong></p>
+                        <ul class="quiz-options">
+                            <li><label><input type="radio" name="r5" value="i" /> i. The sun</label></li>
+                            <li><label><input type="radio" name="r5" value="ii" /> ii. Heat from within the Earth</label></li>
+                            <li><label><input type="radio" name="r5" value="iii" /> iii. The wind</label></li>
+                            <li><label><input type="radio" name="r5" value="iv" /> iv. Flowing rivers</label></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>Which of these is a major drawback of fossil fuels?</strong></p>
+                        <ul class="quiz-options">
+                            <li><label><input type="radio" name="r6" value="i" /> i. They are too expensive</label></li>
+                            <li><label><input type="radio" name="r6" value="ii" /> ii. They release harmful greenhouse gases when burned</label></li>
+                            <li><label><input type="radio" name="r6" value="iii" /> iii. They are not available in all parts of the world</label></li>
+                            <li><label><input type="radio" name="r6" value="iv" /> iv. They require a lot of land to extract</label></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>What is 'biomass energy'?</strong></p>
+                        <ul class="quiz-options">
+                            <li><label><input type="radio" name="r7" value="i" /> i. Energy from sunlight</label></li>
+                            <li><label><input type="radio" name="r7" value="ii" /> ii. Energy from wind</label></li>
+                            <li><label><input type="radio" name="r7" value="iii" /> iii. Energy from organic matter like plants and animal waste</label></li>
+                            <li><label><input type="radio" name="r7" value="iv" /> iv. Energy from underground heat</label></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>Which type of renewable energy is most dependent on weather conditions?</strong></p>
+                        <ul class="quiz-options">
+                            <li><label><input type="radio" name="r8" value="i" /> i. Geothermal</label></li>
+                            <li><label><input type="radio" name="r8" value="ii" /> ii. Hydroelectric</label></li>
+                            <li><label><input type="radio" name="r8" value="iii" /> iii. Solar and Wind</label></li>
+                            <li><label><input type="radio" name="r8" value="iv" /> iv. Biomass</label></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>A 'smart grid' is an electricity network that...</strong></p>
+                        <ul class="quiz-options">
+                            <li><label><input type="radio" name="r9" value="i" /> i. Uses only renewable energy</label></li>
+                            <li><label><input type="radio" name="r9" value="ii" /> ii. Uses digital technology to manage energy use and distribution efficiently</label></li>
+                            <li><label><input type="radio" name="r9" value="iii" /> iii. Is powered by AI</label></li>
+                            <li><label><input type="radio" name="r9" value="iv" /> iv. Only powers smart homes</label></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>Which country is a global leader in geothermal energy?</strong></p>
+                        <ul class="quiz-options">
+                            <li><label><input type="radio" name="r10" value="i" /> i. Australia</label></li>
+                            <li><label><input type="radio" name="r10" value="ii" /> ii. Iceland</label></li>
+                            <li><label><input type="radio" name="r10" value="iii" /> iii. Brazil</label></li>
+                            <li><label><input type="radio" name="r10" value="iv" /> iv. China</label></li>
+                        </ul>
+                    </li>
+                </ol>
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="btn" type="submit">Submit Quiz</button>
+                    <button class="btn" type="button" onclick="showSection('lessons')">Back to Lessons</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="waste-management-lesson" class="lesson-content" style="display:none;">
+        <div class="lesson-header">
+            <h2>Waste Management</h2>
+            <p>Waste management involves the collection, transport, processing, recycling, or disposal of waste materials. The most widely used approach is the 'waste hierarchy,' which prioritizes prevention over disposal. The cornerstone of this system is the 3Rs: Reduce, Reuse, and Recycle. By reducing our consumption, reusing items, and recycling what we can, we can significantly lessen our impact on landfills and incinerators.</p>
+            <button class="btn" onclick="showQuiz('waste-management')">Start Quiz</button>
+            <button class="btn" type="button" onclick="showSection('lessons')">Back to Lessons</button>
+        </div>
+        <div id="waste-management-quiz-container" class="quiz-container black-glass-container" style="display:none;">
+            <h3>Quiz: Waste Management</h3>
+            <form id="waste-management-quiz-form" onsubmit="event.preventDefault(); submitQuiz('waste-management');">
+                <ol>
+                    <li>
+                        <p><strong>What is the first and most preferred step in the waste hierarchy?</strong></p>
+                        <ul class="quiz-options">
+                            <li><label><input type="radio" name="w1" value="i" /> i. Reduce</label></li>
+                            <li><label><input type="radio" name="w1" value="ii" /> ii. Recycle</label></li>
+                            <li><label><input type="radio" name="w1" value="iii" /> iii. Reuse</label></li>
+                            <li><label><input type="radio" name="w1" value="iv" /> iv. Landfill</label></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>Which of these is an example of 'reusing' an item?</strong></p>
+                        <ul class="quiz-options">
+                            <li><label><input type="radio" name="w2" value="i" /> i. Tossing a glass bottle in the trash</label></li>
+                            <li><label><input type="radio" name="w2" value="ii" /> ii. Using a plastic bag to carry groceries</label></li>
+                            <li><label><input type="radio" name="w2" value="iii" /> iii. Taking your own reusable coffee cup to a cafe</label></li>
+                            <li><label><input type="radio" name="w2" value="iv" /> iv. Melting down a soda can to make a new one</label></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>What is composting?</strong></p>
+                        <ul class="quiz-options">
+                            <li><label><input type="radio" name="w3" value="i" /> i. The process of burning garbage at high temperatures</label></li>
+                            <li><label><input type="radio" name="w3" value="ii" /> ii. Turning organic waste into nutrient-rich soil</label></li>
+                            <li><label><input type="radio" name="w3" value="iii" /> iii. The process of sorting plastics from paper</label></li>
+                            <li><label><input type="radio" name="w3" value="iv" /> iv. Dumping waste in a designated area</label></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>Which type of waste takes the longest to decompose in a landfill?</strong></p>
+                        <ul class="quiz-options">
+                            <li><label><input type="radio" name="w4" value="i" /> i. Banana peel</label></li>
+                            <li><label><input type="radio" name="w4" value="ii" /> ii. Newspaper</label></li>
+                            <li><label><input type="radio" name="w4" value="iii" /> iii. Glass bottle</label></li>
+                            <li><label><input type="radio" name="w4" value="iv" /> iv. Cotton T-shirt</label></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>The 'Recycle' part of the 3Rs means...</strong></p>
+                        <ul class="quiz-options">
+                            <li><label><input type="radio" name="w5" value="i" /> i. Using an item again for the same or a different purpose</label></li>
+                            <li><label><input type="radio" name="w5" value="ii" /> ii. Converting waste materials into new materials and objects</label></li>
+                            <li><label><input type="radio" name="w5" value="iii" /> iii. Throwing away less waste</label></li>
+                            <li><label><input type="radio" name="w5" value="iv" /> iv. Burning waste for energy</label></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>What is 'upcycling'?</strong></p>
+                        <ul class="quiz-options">
+                            <li><label><input type="radio" name="w6" value="i" /> i. Breaking down materials into smaller parts</label></li>
+                            <li><label><input type="radio" name="w6" value="ii" /> ii. The process of turning waste into a new material of lesser quality</label></li>
+                            <li><label><input type="radio" name="w6" value="iii" /> iii. Creating a new product of higher value from old materials</label></li>
+                            <li><label><input type="radio" name="w6" value="iv" /> iv. Sending trash to a landfill</label></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>What does the term 'single-use plastic' refer to?</strong></p>
+                        <ul class="quiz-options">
+                            <li><label><input type="radio" name="w7" value="i" /> i. Plastic that can be recycled once</label></li>
+                            <li><label><input type="radio" name="w7" value="ii" /> ii. Items made of plastic that are used only once before being thrown away</label></li>
+                            <li><label><input type="radio" name="w7" value="iii" /> iii. Plastic that is very easy to recycle</label></li>
+                            <li><label><input type="radio" name="w7" value="iv" /> iv. Plastic that is designed to be used for a long time</label></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>Which of these is a benefit of proper waste management?</strong></p>
+                        <ul class="quiz-options">
+                            <li><label><input type="radio" name="w8" value="i" /> i. Increased landfill space</label></li>
+                            <li><label><input type="radio" name="w8" value="ii" /> ii. Pollution prevention and resource conservation</label></li>
+                            <li><label><input type="radio" name="w8" value="iii" /> iii. More plastic in the ocean</label></li>
+                            <li><label><input type="radio" name="w8" value="iv" /> iv. Faster consumption of new products</label></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>Why is sorting waste important for recycling?</strong></p>
+                        <ul class="quiz-options">
+                            <li><label><input type="radio" name="w9" value="i" /> i. It is not important at all</label></li>
+                            <li><label><input type="radio" name="w9" value="ii" /> ii. It increases the cost of recycling</label></li>
+                            <li><label><input type="radio" name="w9" value="iii" /> iii. It ensures that materials are properly processed and can be reused effectively</label></li>
+                            <li><label><input type="radio" name="w9" value="iv" /> iv. It makes garbage trucks lighter</label></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>What is 'landfill gas' primarily composed of?</strong></p>
+                        <ul class="quiz-options">
+                            <li><label><input type="radio" name="w10" value="i" /> i. Oxygen and water vapor</label></li>
+                            <li><label><input type="radio" name="w10" value="ii" /> ii. Methane and carbon dioxide</label></li>
+                            <li><label><input type="radio" name="w10" value="iii" /> iii. Nitrogen and argon</label></li>
+                            <li><label><input type="radio" name="w10" value="iv" /> iv. Helium and hydrogen</label></li>
+                        </ul>
+                    </li>
+                </ol>
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="btn" type="submit">Submit Quiz</button>
+                    <button class="btn" type="button" onclick="showSection('lessons')">Back to Lessons</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="leaderboard" class="section">
+        <div class="glass-container">
+            <h2 class="eco-highlight" style="text-align:center;">🌟 Leaderboard 🌟</h2>
+            <div id="leaderboardContainer">
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn" onclick="showSection('course')">Back to Course</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="badges" class="section">
+        <div class="glass-container">
+            <h2 class="eco-highlight" style="text-align:center;">🏆 Your Badges 🏆</h2>
+            <div id="badges-container" class="badges-grid">
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn" onclick="showSection('course')">Back to Course</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Users, badges and leaderboard are saved in this browser so they survive a page refresh
+        const STORE_KEY = 'ecolearn-data';
+
+        function loadStore() {
+            try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch { return {}; }
+        }
+
+        function saveStore() {
+            try { localStorage.setItem(STORE_KEY, JSON.stringify({ users, leaderboardData, currentUser })); } catch {}
+        }
+
+        function escapeHtml(s) {
+            return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        }
+
+        const saved = loadStore();
+        const users = saved.users || {};
+        let currentUser = saved.currentUser && users[saved.currentUser] ? saved.currentUser : null;
+
+        const leaderboardData = saved.leaderboardData || [
+            { name: "EcoHero1", score: 95 },
+            { name: "GreenGenius", score: 91 },
+            { name: "PlanetSaver", score: 89 },
+            { name: "RecycleRanger", score: 87 },
+            { name: "CompostChamp", score: 84 },
+            { name: "BioBoss", score: 81 },
+            { name: "SolarSoldier", score: 79 },
+            { name: "EcoExplorer", score: 76 },
+            { name: "TreeHuggerX", score: 74 },
+            { name: "WaterWarrior", score: 71 }
+        ];
+
+        const correctAnswers = {
+            'sustainability': {
+                s1: 'i', s2: 'iii', s3: 'iii', s4: 'ii', s5: 'ii',
+                s6: 'ii', s7: 'iii', s8: 'i', s9: 'ii', s10: 'ii'
+            },
+            'renewable': {
+                r1: 'ii', r2: 'ii', r3: 'ii', r4: 'iv', r5: 'ii',
+                r6: 'ii', r7: 'iii', r8: 'iii', r9: 'ii', r10: 'ii'
+            },
+            'waste-management': {
+                w1: 'i', w2: 'iii', w3: 'ii', w4: 'iii', w5: 'ii',
+                w6: 'i', w7: 'ii', w8: 'ii', w9: 'iii', w10: 'ii'
+            }
+        };
+
+        const BADGE_FALLBACK_ICON = 'data:image/svg+xml,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><rect width="80" height="80" fill="#1f5130"/><text x="40" y="54" font-size="40" text-anchor="middle">🌿</text></svg>'
+        );
+
+        const badgesData = {
+            'sustainability-master': {
+                title: 'Sustainability Scholar',
+                icon: 'https://imgcdn.stablediffusionweb.com/2024/12/12/17028fba-13a3-46fc-ad2b-516ad5dd9496.jpg'
+            },
+            'renewable-master': {
+                title: 'Renewable Energy Guru',
+                icon: 'https://thumbs.dreamstime.com/b/energy-saver-item-seal-22992650.jpg'
+            },
+            'waste-management-master': {
+                title: 'Waste Warrior',
+                icon: 'https://devp.org/wp-content/uploads/2023/11/02.-Tree-Planter.png'
+            },
+            'eco-champion': {
+                title: 'Eco Champion',
+                icon: 'https://file.aiquickdraw.com/imgcompressed/img/compressed_f31a088e7442a3f80431c151bb9783ec.webp'
+            },
+            'green-pioneer': {
+                title: 'Green Pioneer',
+                icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFaOnJmjr1qJbtA-hJp1oFjdmAQK0VvWUfrOk2cCL3z0EWA5oDMBsEeHTlByn5KwMuBC0&usqp=CAU'
+            },
+            'nature-protector': {
+                title: 'Nature Protector',
+                icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQm9EtH-Hk6Zy_-2pru44JunwH_nCa5R0IeAcqlYTEcz8n5UOJofFlD2If7bXl27rc4hJY&usqp=CAU'
+            },
+            'climate-hero': {
+                title: 'Climate Hero',
+                icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLbEzKcmxk190SNtucgX7aGZG8wpGxqi48fMXH019x51b5yoquHsHEInOks3XgXkiLfoU&usqp=CAU'
+            },
+            'sustainability-expert': {
+                title: 'Sustainability Expert',
+                icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsk5G0gmrEXQ3h36IQfowbqM43IXxyRO1rZIuo7RCJ4ndSwGbmvbcrq90fQ0a1_NMkgRM&usqp=CAU'
+            },
+            'earth-advocate': {
+                title: 'Earth Advocate',
+                icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRB7tPXZ6WpIKs8JwMitfvAFeCTtw2Xv76g3j1Ye6oGAlSznHLOg&usqp=CAU'
+            },
+            'global-citizen': {
+                title: 'Global Citizen',
+                icon: 'https://sdmntpraustraliaeast.oaiusercontent.com/files/00000000-9310-61fa-8f14-613889c3e719/raw?se=2025-09-08T20%3A28%3A15Z&sp=r&sv=2024-08-04&sr=b&scid=95c068fa-df0d-53a5-81ea-62dd6c338ff0&skoid=f8b66c09-1aa0-4801-9884-173c5cef2b8c&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-09-08T17%3A34%3A04Z&ske=2025-09-09T17%3A34%3A04Z&sks=b&skv=2024-08-04&sig=fM4whv715Pin5i7BbFbaCVAjVGE0RBoYaKQQir1m/84%3D'
+            }
+        };
+
+        function resetLessons() {
+            document.querySelectorAll('.lesson-content').forEach(el => {
+                el.style.display = 'none';
+                el.querySelector('.lesson-header').style.display = '';
+                el.querySelector('.quiz-container').style.display = 'none';
+            });
+            document.getElementById('lessons-list').style.display = '';
+        }
+
+        function showSection(id) {
+            document.querySelectorAll('.section').forEach((sec) => sec.classList.remove('active'));
+            resetLessons();
+            const target = document.getElementById(id);
+            if (target) target.classList.add('active');
+        }
+
+        function setLoggedInHeader(loggedIn) {
+            // Keep a way back to the course after login: JOIN US becomes MY COURSE
+            document.getElementById('joinUsBtn').textContent = loggedIn ? 'MY COURSE' : 'JOIN US';
+            document.getElementById('loginBtn').style.display = loggedIn ? 'none' : 'inline-block';
+        }
+
+        function registerUser() {
+            const username = document.getElementById('regUsername').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+
+            // Any details work: registering signs you straight in
+            if (!users[username]) {
+                users[username] = { email: email, badges: [] };
+            }
+            signIn(username);
+        }
+
+        function loginUser() {
+            // Any username and password work; a new username gets a fresh account
+            const username = document.getElementById('loginUsername').value.trim();
+            if (!users[username]) {
+                users[username] = { badges: [] };
+            }
+            signIn(username);
+        }
+
+        function signIn(username) {
+            currentUser = username;
+            saveStore();
+            alert(`Welcome, ${username}!`);
+
+            setLoggedInHeader(true);
+
+            showCourseAfterLogin();
+            showSection('course');
+        }
+
+        function showCourseAfterLogin() {
+            const courseContent = document.getElementById('courseContent');
+            if (courseContent) {
+                courseContent.innerHTML = `
+                    <h2 class="eco-highlight">Welcome, ${escapeHtml(currentUser)} 🌱</h2>
+                    <p class="eco-highlight">You are now logged in. Explore the course and start learning!</p>
+                    <button class="btn" onclick="showSection('lessons')">Start Lessons</button>
+                    <button class="btn" onclick="showLeaderboard()">View Leaderboard</button>
+                    <button class="btn" onclick="showBadges()">Your Badges</button>
+                    <button class="btn" onclick="logoutUser()">Logout</button>
+                `;
+            }
+        }
+
+        function logoutUser() {
+            currentUser = null;
+            saveStore();
+            alert('You have been logged out.');
+
+            setLoggedInHeader(false);
+
+            showSection('home'); // Redirect to home page after logout
+            const courseContent = document.getElementById('courseContent');
+            if (courseContent) {
+                courseContent.innerHTML = `
+                    <h2 class="eco-highlight">Eco Learning and Growing</h2>
+                    <p class="eco-highlight">
+                        EcoLearn is an interactive web platform designed to educate and inspire users about pressing environmental issues through engaging quizzes and challenges. From climate change and pollution to biodiversity and sustainability, EcoLearn transforms learning into a game making complex topics accessible, fun, and memorable. Whether you're a student, educator, or eco-curious explorer, EcoLearn helps you test your knowledge, discover new facts, and take small steps toward a greener future. With real-time feedback, leaderboards, and a growing library of questions, our mission is simple: make environmental education exciting and impactful for everyone.
+                    </p>
+                `;
+            }
+        }
+
+        function showLesson(lessonId) {
+            showSection(null);
+            document.getElementById(lessonId + '-lesson').style.display = 'block';
+        }
+
+        function showQuiz(lessonId) {
+            document.getElementById(lessonId + '-lesson').querySelector('.lesson-header').style.display = 'none';
+            document.getElementById(lessonId + '-quiz-container').style.display = 'block';
+        }
+
+        function submitQuiz(lessonId) {
+            let score = 0;
+            const answers = correctAnswers[lessonId];
+            const form = document.getElementById(lessonId + '-quiz-form');
+            const totalQuestions = Object.keys(answers).length;
+            let unanswered = 0;
+
+            for (const name of Object.keys(answers)) {
+                const selectedOption = form.querySelector(`input[name="${name}"]:checked`);
+
+                if (selectedOption) {
+                    if (selectedOption.value === answers[name]) {
+                        score++;
+                    }
+                } else {
+                    unanswered++;
+                }
+            }
+            
+            const percentage = Math.round((score / totalQuestions) * 100);
+            let message = `You scored ${score} out of ${totalQuestions} (${percentage}%).\n`;
+            if (unanswered > 0) {
+                message += `You left ${unanswered} questions unanswered.`;
+            }
+            alert(message);
+
+            if (currentUser && percentage >= 80) {
+                let badgeId;
+                if (lessonId === 'sustainability') {
+                    badgeId = 'sustainability-master';
+                } else if (lessonId === 'renewable') {
+                    badgeId = 'renewable-master';
+                } else if (lessonId === 'waste-management') {
+                    badgeId = 'waste-management-master';
+                }
+                
+                if (!users[currentUser].badges.includes(badgeId)) {
+                    users[currentUser].badges.push(badgeId);
+                    alert(`Congratulations! You earned the "${badgesData[badgeId].title}" badge!`);
+                }
+            }
+
+            if (currentUser) {
+                let userFound = false;
+                for (let i = 0; i < leaderboardData.length; i++) {
+                    if (leaderboardData[i].name === currentUser) {
+                        leaderboardData[i].score = Math.max(leaderboardData[i].score, percentage);
+                        userFound = true;
+                        break;
+                    }
+                }
+                if (!userFound) {
+                    leaderboardData.push({ name: currentUser, score: percentage });
+                }
+                saveStore();
+            }
+
+            form.reset();
+            showSection('course');
+        }
+
+        function showLeaderboard() {
+            const container = document.getElementById("leaderboardContainer");
+            container.innerHTML = "";
+            
+            leaderboardData.sort((a, b) => b.score - a.score);
+            
+            const cardColors = [
+                '#a855f7', '#6366f1', '#3b82f6', '#0ea5e9', '#06b6d4', 
+                '#14b8a6', '#4CAF50', '#84cc16', '#eab308', '#f97316'
+            ];
+
+            leaderboardData.forEach((entry, index) => {
+                const card = document.createElement("div");
+                card.classList.add("leaderboard-card");
+                
+                const color = cardColors[index % cardColors.length];
+                card.style.borderColor = color;
+                
+                card.innerHTML = `
+                    <span class="rank">#${index + 1}</span>
+                    <strong>${escapeHtml(entry.name)}</strong>
+                    <span class="score">${entry.score} pts</span>
+                `;
+                container.appendChild(card);
+            });
+            showSection("leaderboard");
+        }
+
+        function showBadges() {
+            if (!currentUser) {
+                alert("Please log in to view your badges.");
+                return;
+            }
+
+            const badgesContainer = document.getElementById('badges-container');
+            badgesContainer.innerHTML = '';
+            
+            const userEarnedBadges = users[currentUser].badges;
+
+            if (userEarnedBadges.length === 0) {
+                badgesContainer.innerHTML = `
+                    <p style="grid-column: 1 / -1; text-align: center; color: #a4b0c2;">
+                        You haven't earned any badges yet. Complete a quiz with a score of 80% or more to earn your first badge!
+                    </p>
+                `;
+            } else {
+                userEarnedBadges.forEach(badgeId => {
+                    const badgeCard = document.createElement('div');
+                    badgeCard.classList.add('badge-card');
+                    
+                    const badgeInfo = badgesData[badgeId];
+                    if (badgeInfo) {
+                        badgeCard.innerHTML = `
+                            <h4>${badgeInfo.title}</h4>
+                            <p>You earned this badge!</p>
+                        `;
+                        // External badge images can disappear or block hotlinking; fall back to a leaf icon
+                        const img = document.createElement('img');
+                        img.className = 'badge-icon';
+                        img.alt = `${badgeInfo.title} Badge`;
+                        img.referrerPolicy = 'no-referrer';
+                        const useFallback = () => {
+                            img.onerror = img.onload = null;
+                            img.src = BADGE_FALLBACK_ICON;
+                        };
+                        img.onerror = useFallback;
+                        img.onload = () => { if (img.naturalWidth < 2) useFallback(); };
+                        img.src = badgeInfo.icon;
+                        if (img.complete && img.naturalWidth < 2) useFallback();
+                        badgeCard.prepend(img);
+                        badgesContainer.appendChild(badgeCard);
+                    }
+                });
+            }
+            showSection('badges');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (currentUser) {
+                setLoggedInHeader(true);
+                showCourseAfterLogin();
+            }
+            showSection('home');
+        });
+    </script>
+</body>
+</html>
